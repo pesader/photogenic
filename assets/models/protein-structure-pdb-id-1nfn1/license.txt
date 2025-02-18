@@ -1,0 +1,11 @@
+Model Information:
+* title:	Protein Structure | PDB ID 1NFN1
+* source:	https://sketchfab.com/3d-models/protein-structure-pdb-id-1nfn1-695fc24af5d342c3a24023ed3547748b
+* author:	Alexandros Sigaras (https://sketchfab.com/AlexSigaras)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Protein Structure | PDB ID 1NFN1" (https://sketchfab.com/3d-models/protein-structure-pdb-id-1nfn1-695fc24af5d342c3a24023ed3547748b) by Alexandros Sigaras (https://sketchfab.com/AlexSigaras) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

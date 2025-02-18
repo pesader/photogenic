@@ -1,0 +1,11 @@
+Model Information:
+* title:	The M33 TCR p3M33l/H-2 Ld Complex - 4NHU
+* source:	https://sketchfab.com/3d-models/the-m33-tcr-p3m33lh-2-ld-complex-4nhu-bc1045c7c7ac42f4918f44bf48066e4e
+* author:	James (https://sketchfab.com/james)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "The M33 TCR p3M33l/H-2 Ld Complex - 4NHU" (https://sketchfab.com/3d-models/the-m33-tcr-p3m33lh-2-ld-complex-4nhu-bc1045c7c7ac42f4918f44bf48066e4e) by James (https://sketchfab.com/james) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

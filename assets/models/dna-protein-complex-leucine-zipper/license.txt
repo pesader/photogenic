@@ -1,0 +1,11 @@
+Model Information:
+* title:	DNA - Protein Complex, Leucine Zipper
+* source:	https://sketchfab.com/3d-models/dna-protein-complex-leucine-zipper-93040fcbcc684563a199412d6fdd6c8b
+* author:	gvsuchem (https://sketchfab.com/gvsu-chem)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "DNA - Protein Complex, Leucine Zipper" (https://sketchfab.com/3d-models/dna-protein-complex-leucine-zipper-93040fcbcc684563a199412d6fdd6c8b) by gvsuchem (https://sketchfab.com/gvsu-chem) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
