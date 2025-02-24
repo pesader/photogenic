@@ -88,21 +88,10 @@ AFRAME.registerComponent("switch-camera", {
     console.log("Something went wrong: ", error.message, error.name);
   },
   createBtn: function () {
-    var containerElement = document.createElement("div");
-    containerElement.setAttribute("id", "#arjs-select-camera-container");
-    containerElement.setAttribute(
-      "style",
-      "position: absolute; z-index: 1; bottom: 5px; right: 50%; transform: translateX(50%); background-color: rgba(111, 45, 189, 0.7); padding: 8px 16px; border-radius: 4px;"
-    );
-    document.body.appendChild(containerElement);
-
     var selectCameraButton = document.createElement("button");
-    selectCameraButton.innerText = "Switch camera";
-    selectCameraButton.setAttribute(
-      "style",
-      "font-family: 'Courier New', Courier, monospace; padding: 4px 8px; width: 100px; border: none; outline: none; border-radius: 4px; background-color: rgb(10, 255, 198); color: rgb(111, 45, 189); font-weight: bold; cursor: pointer;"
-    );
-
+    selectCameraButton.setAttribute("id", "selectCameraButton");
+    selectCameraButton.innerText = "↻";
+    const containerElement = document.getElementById("buttonContainer");
     containerElement.appendChild(selectCameraButton);
 
     selectCameraButton.addEventListener("click", this.handleClick);
