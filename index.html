@@ -10,6 +10,7 @@
     #buttonContainer {
         position: absolute;
         top: 0;
+        bottom: auto;
         right: 0;
         width: 100px;
         height: 100%;
@@ -17,6 +18,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    /* Move to bottom when in portrait mode */
+    @media screen and (max-aspect-ratio: 1/1) {
+        #buttonContainer {
+            top: auto;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100px;
+            flex-direction: row;
+            justify-content: center;
+        }
     }
 
     #cameraButton {
