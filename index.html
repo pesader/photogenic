@@ -73,6 +73,16 @@
         box-sizing: border-box;
     }
 
+    /* Move to the left side of cameraButton in portrait mode */
+    @media screen and (max-aspect-ratio: 1/1) {
+        #selectCameraButton {
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+        }
+    }
+
+
     #fullscreen-btn {
         position: absolute;
         top: 10px;
