@@ -152,8 +152,8 @@
             // Resize and store A-Frame canvas
             const scene = document.querySelector('a-scene')
             scene.setAttribute('screenshot', {
-              width: video.videoWidth,
-              height: video.videoHeight,
+                width: video.videoWidth,
+                height: video.videoHeight,
             });
             const modelCanvas = scene.components.screenshot.getCanvas('perspective');
 
