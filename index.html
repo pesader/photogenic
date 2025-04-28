@@ -142,9 +142,14 @@
             const videoCanvas = document.createElement("canvas");
             const context = videoCanvas.getContext("2d");
 
+            // Double the resolution
+            const SCALING_FACTOR = 3
+            const width = video.videoWidth * SCALING_FACTOR
+            const height = video.videoHeight * SCALING_FACTOR
+
             // Set canvas size to match video frame
-            videoCanvas.width = video.videoWidth;
-            videoCanvas.height = video.videoHeight;
+            videoCanvas.width = width;
+            videoCanvas.height = height;
 
             // Draw current video frame onto the canvas
             context.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height);
@@ -152,8 +157,8 @@
             // Resize and store A-Frame canvas
             const scene = document.querySelector('a-scene')
             scene.setAttribute('screenshot', {
-                width: video.videoWidth,
-                height: video.videoHeight,
+                width: width,
+                height: height,
             });
             const modelCanvas = scene.components.screenshot.getCanvas('perspective');
 
