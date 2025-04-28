@@ -170,6 +170,10 @@
         gap: 15px;
     }
 
+    #popupButtons:only-child {
+        justify-content: center;
+    }
+
     .popupButton {
         flex: 1; /* Take equal space */
         padding: 12px 0; /* Remove horizontal padding */
@@ -256,10 +260,6 @@
                     <i class="fa-solid fa-download"></i>
                     Download
                 </button>
-                <button id="shareBtn" class="popupButton">
-                    <i class="fa-solid fa-share-nodes"></i>
-                    Share
-                </button>
             </div>
         </div>
 
@@ -285,6 +285,22 @@
         </script>
         <script>
         let screenshotDataUrl = null;
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if Web Share API is supported
+            if (navigator.share) {
+                // Create share button
+                const shareBtn = document.createElement("button");
+                shareBtn.id = "shareBtn";
+                shareBtn.className = "popupButton";
+                shareBtn.innerHTML = '<i class="fa-solid fa-share-nodes"></i> Share';
+
+                // Add event listener for share functionality
+                shareBtn.addEventListener("click", shareScreenshot);
+
+                // Append share button to popup buttons container
+                document.getElementById("popupButtons").appendChild(shareBtn);
+            }
+        });
 
         function takeScreenshot() {
             const video = document.getElementById("arjs-video");
@@ -406,7 +422,6 @@
 
         // Set up event listeners for the popup buttons
         document.getElementById("downloadBtn").addEventListener("click", downloadScreenshot);
-        document.getElementById("shareBtn").addEventListener("click", shareScreenshot);
         document.getElementById("closePopupBtn").addEventListener("click", closePopup);
 
         // Close popup when clicking the overlay
