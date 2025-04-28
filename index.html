@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/dev/aframe/build/aframe-ar.js"></script>
@@ -101,6 +102,85 @@
     #fullscreen-btn:hover {
         background: rgba(0, 0, 0, 0.9);
     }
+
+    /* Screenshot Preview Popup Styles */
+    #screenshotPopup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 85%;
+        max-width: 500px;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 5px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        overflow: hidden;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
+    }
+
+    #screenshotPreview {
+        width: 100%;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        object-fit: contain;
+    }
+
+    .closeButton {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: rgba(226, 232, 240, 0.8);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: background-color 0.2s ease;
+    }
+
+    .closeButton:hover {
+        background-color: rgba(203, 213, 225, 1);
+    }
+
+    #popupButtons {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .popupButton {
+        padding: 12px 25px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e4e4e7;
+        gap: 10px;
+    }
+
+    #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+        display: none;
+    }
     </style>
     <body style='margin : 0px; overflow: hidden;'>
 
@@ -109,6 +189,25 @@
         </div>
 
         <button id="fullscreen-btn" onclick="toggleFullScreen()">⛶</button>
+
+        <!-- Screenshot Preview Popup -->
+        <div id="overlay"></div>
+        <div id="screenshotPopup">
+            <button id="closePopupBtn" class="closeButton">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="screenshotPreview" alt="Screenshot preview">
+            <div id="popupButtons">
+                <button id="downloadBtn" class="popupButton">
+                    <i class="fa-solid fa-download"></i>
+                    Download
+                </button>
+                <button id="shareBtn" class="popupButton">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    Share
+                </button>
+            </div>
+        </div>
 
         <script>
         function toggleFullScreen() {
@@ -131,7 +230,9 @@
         });
         </script>
         <script>
-        document.getElementById("cameraButton").addEventListener("click", () => {
+        let screenshotDataUrl = null;
+
+        function takeScreenshot() {
             const video = document.getElementById("arjs-video");
 
             if (!video || video.readyState < 2) {
@@ -173,13 +274,89 @@
                 isLandscape ? 0 : (aspectRatio + (height * (aspectRatio - 1))/2),
             );
 
-            // Convert canvas to image and trigger download
-            const link = document.createElement("a");
-            link.href = videoCanvas.toDataURL("image/png");
-            link.download = "screenshot.png";
-            link.click();
+            // Store the screenshot dataURL and show the popup
+            screenshotDataUrl = videoCanvas.toDataURL("image/png");
+            showScreenshotPopup(screenshotDataUrl);
+        }
 
-        });
+        function showScreenshotPopup(dataUrl) {
+            // Display the screenshot in the popup
+            const preview = document.getElementById("screenshotPreview");
+            preview.src = dataUrl;
+
+            // Show the popup and overlay
+            document.getElementById("screenshotPopup").style.display = "flex";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function downloadScreenshot() {
+            if (screenshotDataUrl) {
+                const link = document.createElement("a");
+                link.href = screenshotDataUrl;
+                link.download = "photogenic-" + new Date().toISOString().slice(0, 19).replace(/:/g, "-") + ".png";
+                link.click();
+            }
+        }
+
+        async function shareScreenshot() {
+            if (!screenshotDataUrl) return;
+
+            // Check if Web Share API is supported
+            if (!navigator.share) {
+                alert("Sharing is not supported on this device or browser.");
+                return;
+            }
+
+            try {
+                // Convert data URL to a Blob
+                const response = await fetch(screenshotDataUrl);
+                const blob = await response.blob();
+
+                // Create a File from the Blob
+                const file = new File([blob], "photogenic-screenshot.png", { type: "image/png" });
+
+                // Share the file
+                await navigator.share({
+                    title: "Photogenic Screenshot",
+                    text: "Check out this protein model in AR!",
+                    files: [file]
+                });
+
+                console.log("Shared successfully");
+            } catch (error) {
+                console.error("Error sharing the screenshot:", error);
+
+                // Fallback if files sharing is not supported
+                if (error.toString().includes("files")) {
+                    try {
+                        await navigator.share({
+                            title: "Photogenic Screenshot",
+                            text: "Check out this protein model in AR!",
+                            url: screenshotDataUrl
+                        });
+                        console.log("Shared successfully using URL");
+                    } catch (fallbackError) {
+                        console.error("Error with fallback sharing:", fallbackError);
+                        alert("Unable to share. Try downloading instead.");
+                    }
+                } else {
+                    alert("Unable to share. Try downloading instead.");
+                }
+            }
+        }
+
+        function closePopup() {
+            document.getElementById("screenshotPopup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        // Set up event listeners for the popup buttons
+        document.getElementById("downloadBtn").addEventListener("click", downloadScreenshot);
+        document.getElementById("shareBtn").addEventListener("click", shareScreenshot);
+        document.getElementById("closePopupBtn").addEventListener("click", closePopup);
+
+        // Close popup when clicking the overlay
+        document.getElementById("overlay").addEventListener("click", closePopup);
         </script>
         <!-- we add detectionMode and matrixCodeType to tell AR.js to recognize barcode markers -->
         <a-scene
