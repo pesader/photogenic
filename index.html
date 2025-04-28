@@ -146,24 +146,32 @@
             const SCALING_FACTOR = 3
             const width = video.videoWidth * SCALING_FACTOR
             const height = video.videoHeight * SCALING_FACTOR
+            const aspectRatio = height / width
+
+            // Get phone rotation
+            const isLandscape = window.matchMedia("(orientation: landscape)").matches;
 
             // Set canvas size to match video frame
             videoCanvas.width = width;
             videoCanvas.height = height;
 
             // Draw current video frame onto the canvas
-            context.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height);
+            context.drawImage(video, 0, 0, width, height);
 
             // Resize and store A-Frame canvas
             const scene = document.querySelector('a-scene')
             scene.setAttribute('screenshot', {
-                width: width,
-                height: height,
+                width: isLandscape ? width : height,
+                height: isLandscape ? height : width,
             });
             const modelCanvas = scene.components.screenshot.getCanvas('perspective');
 
             // Merge video and A-Frame canvases
-            context.drawImage(modelCanvas, 0, 0);
+            context.drawImage(
+                modelCanvas,
+                isLandscape ? 0 : (aspectRatio - (width * (aspectRatio - 1))/2),
+                isLandscape ? 0 : (aspectRatio + (height * (aspectRatio - 1))/2),
+            );
 
             // Convert canvas to image and trigger download
             const link = document.createElement("a");
