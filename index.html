@@ -111,6 +111,7 @@
         transform: translate(-50%, -50%);
         width: 85%;
         max-width: 500px;
+        max-height: 90vh;
         background-color: rgba(255, 255, 255, 0.95);
         border-radius: 5px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
@@ -122,8 +123,19 @@
         padding-bottom: 20px;
     }
 
-    #screenshotPreview {
+    .imageContainer {
         width: 100%;
+        max-height: calc(90vh - 100px);
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    #screenshotPreview {
+        max-width: 100%;
+        max-height: calc(90vh - 100px);
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         object-fit: contain;
@@ -152,13 +164,15 @@
 
     #popupButtons {
         display: flex;
-        justify-content: space-around;
-        width: 100%;
+        justify-content: space-between;
+        width: calc(100% - 40px); /* Full width minus padding */
         margin-top: 15px;
+        gap: 15px;
     }
 
     .popupButton {
-        padding: 12px 25px;
+        flex: 1; /* Take equal space */
+        padding: 12px 0; /* Remove horizontal padding */
         border-radius: 5px;
         border: none;
         font-size: 16px;
@@ -181,6 +195,44 @@
         z-index: 999;
         display: none;
     }
+
+    /* Media query for narrow screens */
+    @media screen and (max-width: 380px) {
+        #popupButtons {
+            flex-direction: column;
+            width: calc(100% - 40px);
+        }
+
+        .popupButton {
+            width: 100%;
+        }
+    }
+
+    /* Media queries for landscape orientation */
+    @media screen and (orientation: landscape) and (max-height: 600px) {
+        #screenshotPopup {
+            max-height: 85vh;
+            padding-bottom: 10px;
+        }
+
+        .imageContainer {
+            max-height: calc(85vh - 80px);
+        }
+
+        #screenshotPreview {
+            max-height: calc(85vh - 80px);
+        }
+
+        #popupButtons {
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .popupButton {
+            padding: 8px 0;
+            font-size: 14px;
+        }
+    }
     </style>
     <body style='margin : 0px; overflow: hidden;'>
 
@@ -196,7 +248,9 @@
             <button id="closePopupBtn" class="closeButton">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <img id="screenshotPreview" alt="Screenshot preview">
+            <div class="imageContainer">
+                <img id="screenshotPreview" alt="Screenshot preview">
+            </div>
             <div id="popupButtons">
                 <button id="downloadBtn" class="popupButton">
                     <i class="fa-solid fa-download"></i>
