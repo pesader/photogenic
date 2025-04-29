@@ -370,11 +370,13 @@
                 isLandscape ? 0 : (aspectRatio + (height * (aspectRatio - 1))/2),
             );
 
+            // Store the screenshot dataURL and show the popup
+            screenshotDataUrl = videoCanvas.toDataURL("image/png");
+
             // Show a flash effect on the screen
             await flashScreen()
 
-            // Store the screenshot dataURL and show the popup
-            screenshotDataUrl = videoCanvas.toDataURL("image/png");
+            // Show screenshot popup right after flash
             showScreenshotPopup(screenshotDataUrl);
         }
 
