@@ -91,10 +91,6 @@ AFRAME.registerComponent("switch-camera", {
       .then(function (stream) {
         domElement.srcObject = stream;
 
-        var event = new CustomEvent("camera-init", {stream: stream});
-        window.dispatchEvent(event);
-        console.log("Event dispatched. Changing camera.");
-
         document.body.addEventListener("click", function () {
           domElement.play();
         });
