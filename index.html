@@ -249,6 +249,11 @@
         z-index: 999;
         transition: opacity 0.1s ease-out;
     }
+
+    .mirrored video,
+    .mirrored a-scene {
+      transform: scaleX(-1);
+    }
     </style>
     <body style='margin : 0px; overflow: hidden;'>
 
@@ -293,6 +298,14 @@
             if (!document.fullscreenElement) {
                 button.style.display = 'block';
             }
+        });
+
+        window.addEventListener("camera-switched", (e) => {
+            const selectedCamera = e.detail.selected
+            if (selectedCamera === "user")
+                document.body.classList.add('mirrored');
+            if (selectedCamera === "env")
+                document.body.classList.remove('mirrored');
         });
 
         let screenshotDataUrl = null;
@@ -350,6 +363,15 @@
             // Set canvas size to match video frame
             videoCanvas.width = width;
             videoCanvas.height = height;
+
+            // Check if the view is mirrored (e.g., body has 'mirrored' class)
+            const isFlipped = document.body.classList.contains('mirrored');
+
+            // Draw current video frame onto the canvas
+            if (isFlipped) {
+                context.translate(width, 0);         // move to right edge
+                context.scale(-1, 1);                // flip horizontally
+            }
 
             // Draw current video frame onto the canvas
             context.drawImage(video, 0, 0, width, height);

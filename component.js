@@ -5,7 +5,24 @@ AFRAME.registerComponent("switch-camera", {
     this.getDevices = this.getDevices.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.devices = [];
-    this.selectedCamera = "env";
+
+    let _selectedCamera;
+    Object.defineProperty(this, "selectedCamera", {
+      get: () => _selectedCamera,
+      set: (val) => {
+        _selectedCamera = val;
+        var event = new CustomEvent(
+          "camera-switched",
+          {
+            detail: {
+              selected: this.selectedCamera,
+            }
+          }
+        )
+        window.dispatchEvent(event);
+      },
+    });
+    this.selectedCamera = "env"
 
     navigator.mediaDevices
       .enumerateDevices()
