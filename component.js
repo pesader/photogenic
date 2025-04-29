@@ -22,7 +22,6 @@ AFRAME.registerComponent("switch-camera", {
         window.dispatchEvent(event);
       },
     });
-    this.selectedCamera = "env"
 
     navigator.mediaDevices
       .enumerateDevices()
@@ -42,7 +41,13 @@ AFRAME.registerComponent("switch-camera", {
     }
     if (this.devices.length > 1) {
       this.createBtn();
+      this.selectedCamera = "env"
     }
+    // NOTE: if there is only one camera, it's probably a laptop, which usually
+    //       only have a single front-facing camera (the webcam). In this case,
+    //       the correct camera "user" since it is facing the user.
+    else
+      this.selectedCamera = "user"
   },
   handleClick: function (e) {
     var constraints;
